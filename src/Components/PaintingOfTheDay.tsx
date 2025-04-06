@@ -1,165 +1,142 @@
-import { useEffect, useRef, useState } from "react";
-
-type PaintingOfTheDayProps = {
-  paintingOfTheDay: string;
-};
-
-type Row = {
-  children: Part[];
-};
+import { useEffect, useState } from "react";
 
 type Part = {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
+  dimensions: { width: number; height: number };
+  src: string;
 };
 
-const NUMBER_OF_ROWS = 4;
-const NUMBER_OF_COLS = 4;
-const PART_WIDTH_PERCENT = 100 / NUMBER_OF_COLS;
-const PART_HEIGHT_PERCENT = 100 / NUMBER_OF_ROWS;
+type PaintingOfTheDayProps = {
+  imageUrl: string;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+};
 
 export const PaintingOfTheDay = ({
-  paintingOfTheDay,
+  imageUrl,
+  containerRef,
 }: PaintingOfTheDayProps) => {
-  // divide the paintingOfTheDay into 16 equal parts
-  const paintingOfTheDayParts: Row[] = [];
-  for (let i = 0; i < NUMBER_OF_ROWS; i++) {
-    for (let j = 0; j < NUMBER_OF_COLS; j++) {
-      const left = j * PART_WIDTH_PERCENT;
-      const top = i * PART_HEIGHT_PERCENT;
-      const width = PART_WIDTH_PERCENT;
-      const height = PART_HEIGHT_PERCENT;
+  const [imageParts, setImageParts] = useState<Part[]>([]);
 
-      const part: Part = {
-        left,
-        top,
-        width,
-        height,
-      };
-      if (!paintingOfTheDayParts[i]) {
-        paintingOfTheDayParts[i] = { children: [] };
-      }
-      paintingOfTheDayParts[i].children.push(part);
-    }
-  }
-
-  return (
-    <div className="paintings">
-      <h2>Paintings</h2>
-      <div className="PaintingOfTheDay">
-        {/* <img src={paintingOfTheDay} alt="Painting of the Day" width={"100%"} /> */}
-        <div className="PaintingOfTheDayParts">
-          {paintingOfTheDayParts.map((row, rowIndex) => (
-            <div key={rowIndex} className="PaintingPartRow">
-              {row.children.map((part, colIndex) => (
-                <div
-                  key={`${rowIndex}-${colIndex}`}
-                  className="PaintingOfTheDayPart"
-                  style={{
-                    backgroundImage: `url(${paintingOfTheDay})`,
-                    backgroundPosition: `${part.left}% ${part.top}%`,
-                    width: `${part.width}%`,
-                    height: `${part.height}%`,
-                  }}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// type SplitImageProps = {
-//   imageUrl: string;
-// };
-
-export const SplitImage = ({ imageUrl }: { imageUrl: string }) => {
-  const [imageParts, setImageParts] = useState<string[]>([]);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Type the ref here
-
-  console.log({ imageParts, canvasRef });
+  const [guessedIndexes, setGuessedIndexes] = useState<number[]>([]);
+  const [imageScaledDimensions, setImageScaledDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({
+    width: 0,
+    height: 0,
+  });
 
   useEffect(() => {
-    console.log("useEffect called");
     const loadImage = () => {
-      console.log("loadImage called");
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        // Get the canvas context to draw on
-        const canvas = canvasRef.current;
+        const container = containerRef.current;
 
-        // Make sure the canvas is not null
-        if (!canvas) return;
+        if (!container) return;
 
-        const ctx = canvas.getContext("2d");
+        const numColsToCut = 4;
+        const numRowsToCut = 4;
 
-        // Make sure the context is available
-        if (!ctx) return;
+        const ratioWidth = img.width / container.clientWidth;
+        const ratioHeight = img.height / container.clientHeight;
 
-        // Set canvas dimensions to match image
-        canvas.width = img.width;
-        canvas.height = img.height;
+        const ratio = Math.max(ratioWidth, ratioHeight, 1);
 
-        // Create an array to store the parts of the image
-        const parts: string[] = [];
-        const rows = 4; // 4 rows for splitting (16 parts total)
-        const cols = 4; // 4 columns for splitting (16 parts total)
-        const partWidth = img.width / cols;
-        const partHeight = img.height / rows;
+        setImageScaledDimensions({
+          width: img.width / ratio,
+          height: img.height / ratio,
+        });
 
-        // Slice the image into 16 parts
-        for (let row = 0; row < rows; row++) {
-          for (let col = 0; col < cols; col++) {
-            const x = col * partWidth;
-            const y = row * partHeight;
-            ctx.drawImage(
+        const imagePieces: Part[] = [];
+
+        const widthOfOnePiece = Math.floor(img.width / numColsToCut);
+        const heightOfOnePiece = Math.floor(img.height / numRowsToCut);
+
+        for (let y = 0; y < numRowsToCut; ++y) {
+          for (let x = 0; x < numColsToCut; ++x) {
+            const canvas = document.createElement("canvas");
+            canvas.width = widthOfOnePiece / ratio;
+            canvas.height = heightOfOnePiece / ratio;
+            const context = canvas.getContext("2d");
+            if (!context) return;
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(
               img,
-              x,
-              y,
-              partWidth,
-              partHeight,
+              x * widthOfOnePiece,
+              y * heightOfOnePiece,
+              widthOfOnePiece,
+              heightOfOnePiece,
               0,
               0,
               canvas.width,
               canvas.height
             );
-            const partDataUrl = canvas.toDataURL("image/png");
-            parts.push(partDataUrl); // Store each part as a Data URL
+            imagePieces.push({
+              dimensions: { width: canvas.width, height: canvas.height },
+              src: canvas.toDataURL(),
+            });
           }
         }
-        setImageParts(parts); // Update the state with the parts
+
+        setImageParts(imagePieces); // Update the state with the parts
       };
     };
 
     loadImage();
-  }, [imageUrl]);
+  }, [containerRef, imageUrl]);
 
   return (
     <>
-      <canvas ref={canvasRef} style={{ display: "none" }} />
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          width: "100%", // make the grid take full width of its container
-          maxWidth: "90%", // optional: limit how wide it can get overall
-          margin: "0 auto", // optional: center it
+          width: "100%",
+          height: "500px",
         }}
-        className="SplitImage"
+        ref={containerRef}
       >
-        {imageParts.map((part, index) => (
-          <img
-            key={index}
-            src={part}
-            alt={`part-${index}`}
-            style={{ width: "100%", height: "auto" }}
-          />
-        ))}
+        <canvas style={{ display: "none" }} />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "0px",
+            width: imageScaledDimensions.width,
+            height: imageScaledDimensions.height,
+            border: "none",
+            borderWidth: "0px",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          {imageParts.map(({ src, dimensions }, index) => (
+            <img
+              key={index}
+              src={guessedIndexes.includes(index) ? src : ""} // Show the image part only if guessed
+              style={{
+                display: "block",
+                width: dimensions.width,
+                height: dimensions.height,
+                backgroundColor: guessedIndexes.includes(index)
+                  ? "transparent"
+                  : "green",
+                cursor: "pointer",
+                border: "none",
+                borderWidth: "0px",
+                padding: 0,
+                margin: 0,
+              }}
+              onClick={() => {
+                setGuessedIndexes((prev) => {
+                  if (!prev.includes(index)) {
+                    return [...prev, index];
+                  }
+                  return prev;
+                });
+              }}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
