@@ -5,6 +5,7 @@ type GuessBoxProps = {
   setCurrentGuess: React.Dispatch<React.SetStateAction<string>>;
   onSubmitGuess: () => void;
   options: { value: string; name: string; artist: string; date: string }[];
+  needsToClickAnotherTile: boolean;
 };
 
 export const GuessBox = ({
@@ -12,6 +13,7 @@ export const GuessBox = ({
   setCurrentGuess,
   onSubmitGuess,
   options,
+  needsToClickAnotherTile,
 }: GuessBoxProps) => {
   return (
     <div className="GuessBox">
@@ -35,9 +37,18 @@ export const GuessBox = ({
           )}
           isClearable
         />
-        <button onClick={() => onSubmitGuess()} disabled={currentGuess === ""}>
-          Submit
-        </button>
+        {needsToClickAnotherTile ? (
+          <p className="Warning">
+            You need to click another tile before submitting your guess.
+          </p>
+        ) : (
+          <button
+            onClick={() => onSubmitGuess()}
+            disabled={currentGuess === ""}
+          >
+            Submit
+          </button>
+        )}
       </div>
     </div>
   );

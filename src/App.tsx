@@ -17,6 +17,7 @@ function App() {
 
   const [image, setImage] = useState(null);
   const [clickedTileIndexes, setClickedTileIndexes] = useState<number[]>([]);
+  const [numOfGuesses, setNumOfGuesses] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
 
   const startDate = new Date(2025, 3, 6); // day that we wrote this code
@@ -50,6 +51,8 @@ function App() {
   }, [selectedAnswer.filename]);
 
   const onSubmitGuess = () => {
+    setNumOfGuesses(numOfGuesses + 1);
+
     console.log("Current guess:", currentGuess);
     if (currentGuess === getValueFromPainting(selectedAnswer)) {
       console.log("Correct!");
@@ -81,6 +84,7 @@ function App() {
           name: answer.title,
           date: answer.displaydate,
         }))}
+        needsToClickAnotherTile={numOfGuesses === clickedTileIndexes.length}
       />
     </div>
   );
