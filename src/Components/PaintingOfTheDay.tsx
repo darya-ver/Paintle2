@@ -8,15 +8,18 @@ type Part = {
 type PaintingOfTheDayProps = {
   imageUrl: string;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  clickedTileIndexes: number[];
+  setClickedTileIndexes: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 export const PaintingOfTheDay = ({
   imageUrl,
   containerRef,
+  clickedTileIndexes,
+  setClickedTileIndexes,
 }: PaintingOfTheDayProps) => {
   const [imageParts, setImageParts] = useState<Part[]>([]);
 
-  const [guessedIndexes, setGuessedIndexes] = useState<number[]>([]);
   const [imageScaledDimensions, setImageScaledDimensions] = useState<{
     width: number;
     height: number;
@@ -112,12 +115,12 @@ export const PaintingOfTheDay = ({
           {imageParts.map(({ src, dimensions }, index) => (
             <img
               key={index}
-              src={guessedIndexes.includes(index) ? src : ""} // Show the image part only if guessed
+              src={clickedTileIndexes.includes(index) ? src : ""} // Show the image part only if guessed
               style={{
                 display: "block",
                 width: dimensions.width,
                 height: dimensions.height,
-                backgroundColor: guessedIndexes.includes(index)
+                backgroundColor: clickedTileIndexes.includes(index)
                   ? "transparent"
                   : "green",
                 cursor: "pointer",
@@ -127,7 +130,7 @@ export const PaintingOfTheDay = ({
                 margin: 0,
               }}
               onClick={() => {
-                setGuessedIndexes((prev) => {
+                setClickedTileIndexes((prev) => {
                   if (!prev.includes(index)) {
                     return [...prev, index];
                   }
