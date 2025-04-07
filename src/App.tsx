@@ -1,68 +1,87 @@
-import { useRef } from "react";
-import "./App.css";
+import { useRef, useState, useEffect } from "react";
 import { GuessBox } from "./Components/GuessBox";
 import { Header } from "./Components/Header";
 import { PaintingOfTheDay } from "./Components/PaintingOfTheDay";
-import painting_data from './assets/final_image_data.json'
-import { useEffect, useState } from 'react'
+import painting_data from "./assets/final_image_data.json";
 
+const getValueFromPainting = (painting: {
+  title: string;
+  attribution: string;
+}) => {
+  const value = painting.title + " " + painting.attribution;
+  return value;
+};
 
 function App() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const startDate = new Date(2025, 3, 6) // day that we wrote this code
-  const now = new Date()
+  const [image, setImage] = useState(null);
+  const [clickedTileIndexes, setClickedTileIndexes] = useState<number[]>([]);
+  const [currentGuess, setCurrentGuess] = useState<string>("");
+
+  const startDate = new Date(2025, 3, 6); // day that we wrote this code
+  const now = new Date();
 
   // The days between the startDate and now
   const days = Math.floor(
     (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  )
+  );
 
-  const selectedAnswer = painting_data[days % painting_data.length]
+  const selectedAnswer = painting_data[days % painting_data.length];
 
-  const shuffledAnswers = [...painting_data]
-  for (let i = shuffledAnswers.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-      ;[shuffledAnswers[i], shuffledAnswers[j]] = [
-        shuffledAnswers[j],
-        shuffledAnswers[i],
-      ]
+  const shuffledResults = [...painting_data];
+  for (let i = shuffledResults.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledResults[i], shuffledResults[j]] = [
+      shuffledResults[j],
+      shuffledResults[i],
+    ];
   }
-
-  const [image, setImage] = useState(null)
-
 
   useEffect(() => {
     const fetchImage = async () => {
-      const response = await import(`./assets/images/${selectedAnswer.filename}`) // change relative path to suit your needs
-      setImage(response.default)
-    }
+      const response = await import(
+        `./assets/images/${selectedAnswer.filename}`
+      );
+      setImage(response.default);
+    };
 
-    fetchImage()
-  }, [selectedAnswer.filename])
+    fetchImage();
+  }, [selectedAnswer.filename]);
+
+  const onSubmitGuess = () => {
+    console.log("Current guess:", currentGuess);
+    if (currentGuess === getValueFromPainting(selectedAnswer)) {
+      console.log("Correct!");
+    } else {
+      console.log("Incorrect!");
+    }
+  };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="App">
       <Header />
-      <div
-        ref={containerRef}
-        style={{
-          flexGrow: 1,
-          width: "100%",
-        }}
-      >
-        {image != "" ?
-          <PaintingOfTheDay imageUrl={image} containerRef={containerRef} /> : null
-        }
+      <div ref={containerRef} className="ImageContainer">
+        {image && image != "" ? (
+          <PaintingOfTheDay
+            imageUrl={image}
+            containerRef={containerRef}
+            clickedTileIndexes={clickedTileIndexes}
+            setClickedTileIndexes={setClickedTileIndexes}
+          />
+        ) : null}
       </div>
-      <GuessBox />
+      <GuessBox
+        currentGuess={currentGuess}
+        setCurrentGuess={setCurrentGuess}
+        onSubmitGuess={onSubmitGuess}
+        options={shuffledResults.map((answer) => ({
+          value: getValueFromPainting(answer),
+          artist: answer.attribution,
+          name: answer.title,
+          date: answer.displaydate,
+        }))}
+      />
     </div>
   );
 }
