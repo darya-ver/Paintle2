@@ -3,6 +3,7 @@ import { GuessBox } from "./Components/GuessBox";
 import { Header } from "./Components/Header";
 import { PaintingOfTheDay } from "./Components/PaintingOfTheDay";
 import painting_data from "./assets/final_image_data.json";
+import { ResultsModal } from "./Components/ResultsModal";
 
 const getValueFromPainting = (painting: {
   title: string;
@@ -19,9 +20,22 @@ function App() {
   const [clickedTileIndexes, setClickedTileIndexes] = useState<number[]>([]);
   const [numOfGuesses, setNumOfGuesses] = useState<number>(0);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [showResultsModal, setShowResultsModal] = useState<boolean>(false);
+  const [isWin, setIsWin] = useState<boolean>(false);
 
   const startDate = new Date(2025, 3, 6); // day that we wrote this code
   const now = new Date();
+  const midnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+    0,
+    0,
+    0
+  );
+
+  // TODO: this isn't updating every second
+  const secondsTillMidnight = (midnight.getTime() - now.getTime()) / 1000;
 
   // The days between the startDate and now
   const days = Math.floor(
@@ -53,11 +67,11 @@ function App() {
   const onSubmitGuess = () => {
     setNumOfGuesses(numOfGuesses + 1);
 
-    console.log("Current guess:", currentGuess);
     if (currentGuess === getValueFromPainting(selectedAnswer)) {
-      console.log("Correct!");
+      setShowResultsModal(true);
+      setIsWin(true);
     } else {
-      console.log("Incorrect!");
+      setCurrentGuess("");
     }
   };
 
@@ -85,6 +99,19 @@ function App() {
           date: answer.displaydate,
         }))}
         needsToClickAnotherTile={numOfGuesses === clickedTileIndexes.length}
+        openedAllTiles={clickedTileIndexes.length === 16}
+        onGiveUp={() => {
+          setShowResultsModal(true);
+          setIsWin(false);
+        }}
+      />
+      <ResultsModal
+        isOpen={showResultsModal}
+        onClose={() => setShowResultsModal(false)}
+        isWin={isWin}
+        correctAnswer={getValueFromPainting(selectedAnswer)}
+        secondsTillMidnight={secondsTillMidnight}
+        clickedTileIndexes={clickedTileIndexes}
       />
     </div>
   );

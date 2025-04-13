@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Select from "react-select";
 
 type GuessBoxProps = {
@@ -6,6 +7,8 @@ type GuessBoxProps = {
   onSubmitGuess: () => void;
   options: { value: string; name: string; artist: string; date: string }[];
   needsToClickAnotherTile: boolean;
+  openedAllTiles: boolean;
+  onGiveUp: () => void;
 };
 
 export const GuessBox = ({
@@ -14,7 +17,16 @@ export const GuessBox = ({
   onSubmitGuess,
   options,
   needsToClickAnotherTile,
+  openedAllTiles,
+  onGiveUp,
 }: GuessBoxProps) => {
+  const buttonText = useMemo(() => {
+    if (needsToClickAnotherTile) {
+      return "You need to click another tile before submitting your guess.";
+    }
+    return "Submit";
+  }, [needsToClickAnotherTile]);
+
   return (
     <div className="GuessBox">
       <h2>Guess the Painting</h2>
@@ -36,19 +48,20 @@ export const GuessBox = ({
             </div>
           )}
           isClearable
+          isDisabled={needsToClickAnotherTile}
         />
-        {needsToClickAnotherTile ? (
-          <p className="Warning">
-            You need to click another tile before submitting your guess.
-          </p>
-        ) : (
+        <div className="GuessButtonContainer">
           <button
             onClick={() => onSubmitGuess()}
             disabled={currentGuess === ""}
+            style={{
+              flexGrow: 1,
+            }}
           >
-            Submit
+            {buttonText}
           </button>
-        )}
+          {openedAllTiles && <button onClick={onGiveUp}>I give up</button>}
+        </div>
       </div>
     </div>
   );

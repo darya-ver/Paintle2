@@ -37,6 +37,14 @@
   width: 100vw - 16;
 }
 
+.GuessButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
 /* 
 TODO: 
   - make the font different (not times new roman)
