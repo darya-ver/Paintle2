@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import Select from "react-select";
 import { PaintingName } from "./PaintingName";
+import { Button } from "./Button";
 
 type GuessBoxProps = {
   currentGuess: string;
@@ -23,7 +24,7 @@ export const GuessBox = ({
 }: GuessBoxProps) => {
   const buttonText = useMemo(() => {
     if (needsToClickAnotherTile) {
-      return "You need to click another tile before submitting your guess.";
+      return "You need to click another tile before submitting your guess";
     }
     return "Submit";
   }, [needsToClickAnotherTile]);
@@ -35,6 +36,11 @@ export const GuessBox = ({
         <Select
           value={options.find((opt) => opt.value === currentGuess) || null}
           options={options}
+          placeholder={
+            needsToClickAnotherTile
+              ? "Please select a tile to reveal"
+              : "Type to search for a painting..."
+          }
           onChange={(option) => {
             if (option) {
               setCurrentGuess(option.value);
@@ -50,9 +56,25 @@ export const GuessBox = ({
           )}
           isClearable
           isDisabled={needsToClickAnotherTile}
+          styles={{
+            control: (base) => ({
+              ...base,
+              backgroundColor: "#e2f7e2",
+              border: "1px solid #ccc",
+              boxShadow: "none",
+              "&:hover": {
+                border: "1px solid #aaa",
+              },
+            }),
+            menu: (base) => ({
+              ...base,
+              zIndex: 9999,
+              backgroundColor: "#e2f7e2",
+            }),
+          }}
         />
         <div className="GuessButtonContainer">
-          <button
+          <Button
             onClick={() => onSubmitGuess()}
             disabled={currentGuess === ""}
             style={{
@@ -60,8 +82,12 @@ export const GuessBox = ({
             }}
           >
             {buttonText}
-          </button>
-          {openedAllTiles && <button onClick={onGiveUp}>I give up</button>}
+          </Button>
+          {openedAllTiles && (
+            <Button onClick={onGiveUp} variant="Secondary">
+              I give up
+            </Button>
+          )}
         </div>
       </div>
     </div>

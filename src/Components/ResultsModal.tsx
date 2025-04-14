@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { Answer } from "../types";
 import { PaintingName } from "./PaintingName";
 import { formatCopyContent, getTimeUntilNextPaintle } from "../utils";
+import { Button } from "./Button";
 
 type ResultsModalProps = {
   isOpen: boolean;
@@ -63,12 +64,19 @@ export const ResultsModal = ({
   }, [secondsTillMidnight]);
 
   return (
-    <Modal isOpen={isOpen} contentLabel="Example Modal">
-      Modal content
-      <button onClick={onClose}>Close</button>
+    <Modal
+      isOpen={isOpen}
+      contentLabel="Example Modal"
+      style={{ content: { backgroundColor: "#cff6cf", height: "50%" } }}
+    >
+      <div className="ModalClose">
+        <Button onClick={onClose} variant="Blank">
+          X
+        </Button>
+      </div>
       {isWin ? winContent : loseContent}
       {timeUntilNextPaintle}
-      <button
+      <Button
         onClick={() => {
           navigator.clipboard.writeText(
             formatCopyContent(clickedTileIndexes, isWin)
@@ -80,7 +88,7 @@ export const ResultsModal = ({
         }}
       >
         Copy results
-      </button>
+      </Button>
       {copied ? <> Copied!</> : null}
     </Modal>
   );

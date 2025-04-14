@@ -1,6 +1,24 @@
-.header {
+body {
+  background-color: #cff6cf;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-decoration: none;
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+header {
   width: 100%;
-  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: fantasy;
+  font-size: 2em;
 }
 
 .InputContainer {
@@ -45,9 +63,46 @@
   gap: 0.5em;
 }
 
+.Button {
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  height: 40px;
+
+  &.Primary {
+    background-color: green;
+    border: 1px solid darkgreen;
+    color: white;
+  }
+
+  &.Secondary {
+    background-color: darkgreen;
+    border: 1px solid darkgreen;
+    color: white;
+  }
+
+  &.Blank {
+    background-color: transparent;
+    border: 0px;
+    color: #333;
+  }
+
+  &:disabled {
+    background-color: #d9d6d6;
+    border: 1px solid #aaa;
+    color: #666;
+    cursor: not-allowed;
+    font-style: italic;
+  }
+}
+
+.ModalClose {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  cursor: pointer;
+}
+
 /* 
 TODO: 
-  - make the font different (not times new roman)
   - center the image
-  - make the button and select look better
 */
