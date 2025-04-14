@@ -24,18 +24,27 @@ function App() {
   const [isWin, setIsWin] = useState<boolean>(false);
 
   const startDate = new Date(2025, 3, 6); // day that we wrote this code
-  const now = new Date();
-  const midnight = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1,
-    0,
-    0,
-    0
-  );
+  const [secondsTillMidnight, setSecondsTillMidnight] = useState(0); 
 
-  // TODO: this isn't updating every second
-  const secondsTillMidnight = (midnight.getTime() - now.getTime()) / 1000;
+  const now = new Date();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      const midnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0,
+        0,
+        0
+      );
+      setSecondsTillMidnight((midnight.getTime() - now.getTime()) / 1000);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
 
   // The days between the startDate and now
   const days = Math.floor(
