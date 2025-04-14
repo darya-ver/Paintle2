@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import Modal from "react-modal";
 import { Answer } from "../types";
 import { PaintingName } from "./PaintingName";
-import { formatCopyContent, getTimeUntilNextPaintle } from "../utils";
+import { formatCopyContent } from "../utils";
 import { Button } from "./Button";
 
 type ResultsModalProps = {
@@ -10,7 +10,7 @@ type ResultsModalProps = {
   onClose: () => void;
   isWin: boolean;
   correctAnswer: Answer;
-  secondsTillMidnight: number;
+  timeToNextPaintle: string;
   clickedTileIndexes: number[];
 };
 
@@ -19,7 +19,7 @@ export const ResultsModal = ({
   onClose,
   isWin,
   correctAnswer,
-  secondsTillMidnight,
+  timeToNextPaintle,
   clickedTileIndexes,
 }: ResultsModalProps) => {
   const [copied, setCopied] = useState(false);
@@ -58,14 +58,12 @@ export const ResultsModal = ({
   }, [correctAnswer]);
 
   const timeUntilNextPaintle = useMemo(() => {
-    const timeUntilNextPaintle = getTimeUntilNextPaintle(secondsTillMidnight);
-
     return (
       <p>
-        Time until next Paintle: <code>{timeUntilNextPaintle}.</code>
+        Time until next Paintle: <code>{timeToNextPaintle}.</code>
       </p>
     );
-  }, [secondsTillMidnight]);
+  }, [timeToNextPaintle]);
 
   return (
     <Modal

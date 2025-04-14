@@ -1,4 +1,5 @@
 import { INDEX_TO_EMOJI, UN_REVEALED_SQUARE } from "./constants";
+import { Answer } from "./types";
 
 export const formatCopyContent = (
   clickedTileIndexes: number[],
@@ -42,4 +43,27 @@ export const getTimeUntilNextPaintle = (secondsTillMidnight: number) => {
     .padStart(2, "0");
 
   return `${hoursTillMidnight}:${minsTillMidnight}:${secsTillMidnight}`;
+};
+
+export const getValueFromPainting = (painting: {
+  title: string;
+  attribution: string;
+}) => {
+  const value = painting.title + " " + painting.attribution;
+  return value;
+};
+
+export const getAnswer = (painting_data: Answer[]) => {
+  const now = new Date();
+  const startDate = new Date(2025, 3, 6); // day that we wrote this code
+
+  // The days between the startDate and now
+  const days = Math.floor(
+    (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const selectedAnswer = painting_data[days % painting_data.length];
+  const answerLabel = getValueFromPainting(selectedAnswer);
+
+  return { selectedAnswer, answerLabel };
 };
