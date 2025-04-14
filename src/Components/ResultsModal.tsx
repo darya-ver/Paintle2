@@ -60,7 +60,11 @@ export const ResultsModal = ({
   const timeUntilNextPaintle = useMemo(() => {
     const timeUntilNextPaintle = getTimeUntilNextPaintle(secondsTillMidnight);
 
-    return <p>Time until next Paintle: {timeUntilNextPaintle}</p>;
+    return (
+      <p>
+        Time until next Paintle: <code>{timeUntilNextPaintle}.</code>
+      </p>
+    );
   }, [secondsTillMidnight]);
 
   return (
@@ -69,27 +73,30 @@ export const ResultsModal = ({
       contentLabel="Example Modal"
       style={{ content: { backgroundColor: "#cff6cf", height: "50%" } }}
     >
-      <div className="ModalClose">
-        <Button onClick={onClose} variant="Blank">
-          X
+      <div className="ModalContent">
+        <div className="ModalClose">
+          <Button onClick={onClose} variant="Blank">
+            X
+          </Button>
+        </div>
+        <div className="ModalCenterContent">
+          {isWin ? winContent : loseContent}
+          {timeUntilNextPaintle}
+        </div>
+        <Button
+          onClick={() => {
+            navigator.clipboard.writeText(
+              formatCopyContent(clickedTileIndexes, isWin)
+            );
+            setCopied(true);
+            setTimeout(() => {
+              setCopied(false);
+            }, 2000);
+          }}
+        >
+          {copied ? "Copied! ✔" : "Copy to Clipboard"}
         </Button>
       </div>
-      {isWin ? winContent : loseContent}
-      {timeUntilNextPaintle}
-      <Button
-        onClick={() => {
-          navigator.clipboard.writeText(
-            formatCopyContent(clickedTileIndexes, isWin)
-          );
-          setCopied(true);
-          setTimeout(() => {
-            setCopied(false);
-          }, 2000);
-        }}
-      >
-        Copy results
-      </Button>
-      {copied ? <> Copied!</> : null}
     </Modal>
   );
 };

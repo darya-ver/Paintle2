@@ -24,7 +24,7 @@ function App() {
   const [isWin, setIsWin] = useState<boolean>(false);
 
   const startDate = new Date(2025, 3, 6); // day that we wrote this code
-  const [secondsTillMidnight, setSecondsTillMidnight] = useState(0); 
+  const [secondsTillMidnight, setSecondsTillMidnight] = useState(0);
 
   const now = new Date();
 
@@ -44,7 +44,6 @@ function App() {
 
     return () => clearInterval(intervalId);
   }, []);
-
 
   // The days between the startDate and now
   const days = Math.floor(
@@ -67,7 +66,8 @@ function App() {
 
   useEffect(() => {
     const fetchImage = async () => {
-      const response = await import( /* @vite-ignore */
+      const response = await import(
+        /* @vite-ignore */
         `./assets/images/${selectedAnswer.filename}`
       );
       setImage(response.default);
@@ -90,7 +90,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div ref={containerRef} className="ImageContainer">
+      <div ref={containerRef} style={{ width: "100%", flexGrow: 1 }}>
         {image && image != "" ? (
           <PaintingOfTheDay
             imageUrl={image}
@@ -104,7 +104,7 @@ function App() {
         currentGuess={currentGuess}
         setCurrentGuess={setCurrentGuess}
         onSubmitGuess={onSubmitGuess}
-        options={shuffledResults.map((answer) => ({
+        options={painting_data.map((answer) => ({
           value: getValueFromPainting(answer),
           artist: answer.attribution,
           name: answer.title,
@@ -119,7 +119,10 @@ function App() {
       />
       <ResultsModal
         isOpen={showResultsModal}
-        onClose={() => setShowResultsModal(false)}
+        onClose={() => {
+          setShowResultsModal(false);
+          setCurrentGuess("");
+        }}
         isWin={isWin}
         correctAnswer={selectedAnswer}
         secondsTillMidnight={secondsTillMidnight}

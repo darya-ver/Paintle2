@@ -96,6 +96,7 @@ export const PaintingOfTheDay = ({
           width: "100%",
           height: "500px",
         }}
+        className="ImageContainer"
         ref={containerRef}
       >
         <canvas style={{ display: "none" }} />

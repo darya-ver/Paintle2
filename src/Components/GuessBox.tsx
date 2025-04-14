@@ -24,7 +24,7 @@ export const GuessBox = ({
 }: GuessBoxProps) => {
   const buttonText = useMemo(() => {
     if (needsToClickAnotherTile) {
-      return "You need to click another tile before submitting your guess";
+      return "Click another tile";
     }
     return "Submit";
   }, [needsToClickAnotherTile]);
