@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import Select from "react-select";
+import { PaintingName } from "./PaintingName";
 
 type GuessBoxProps = {
   currentGuess: string;
@@ -44,7 +45,7 @@ export const GuessBox = ({
           menuPlacement="top"
           formatOptionLabel={(option) => (
             <div>
-              <b>{option.name}</b> — {option.artist} ({option.date})
+              <PaintingName option={option} />
             </div>
           )}
           isClearable

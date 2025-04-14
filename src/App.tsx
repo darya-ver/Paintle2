@@ -43,6 +43,9 @@ function App() {
   );
 
   const selectedAnswer = painting_data[days % painting_data.length];
+  const answerLabel = getValueFromPainting(selectedAnswer);
+
+  console.log({ answer: answerLabel });
 
   const shuffledResults = [...painting_data];
   for (let i = shuffledResults.length - 1; i > 0; i--) {
@@ -67,7 +70,7 @@ function App() {
   const onSubmitGuess = () => {
     setNumOfGuesses(numOfGuesses + 1);
 
-    if (currentGuess === getValueFromPainting(selectedAnswer)) {
+    if (currentGuess === answerLabel) {
       setShowResultsModal(true);
       setIsWin(true);
     } else {
@@ -109,7 +112,7 @@ function App() {
         isOpen={showResultsModal}
         onClose={() => setShowResultsModal(false)}
         isWin={isWin}
-        correctAnswer={getValueFromPainting(selectedAnswer)}
+        correctAnswer={selectedAnswer}
         secondsTillMidnight={secondsTillMidnight}
         clickedTileIndexes={clickedTileIndexes}
       />
