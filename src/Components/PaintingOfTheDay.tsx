@@ -111,9 +111,7 @@ export const PaintingOfTheDay = ({
             <div
               style={{
                 display: "inline-block",
-                backgroundColor: clickedTileIndexes.includes(index)
-                  ? "yellow"
-                  : "green",
+                backgroundColor: "green",
                 width: dimensions.width,
                 height: dimensions.height,
               }}
