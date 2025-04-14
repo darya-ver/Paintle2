@@ -110,3 +110,23 @@ header {
 .ModalCenterContent {
   flex-grow: 1;
 }
+
+@keyframes greenCycle {
+  0%   { background-color: hsl(134, 50%, 20%); }
+  50%  { background-color: hsl(134, 50%, 30%); }
+  100% { background-color: hsl(134, 50%, 20%); }
+}
+
+.greenCycle {
+  animation-name: greenCycle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+
+/* 
+TODO: 
+  - make the font different (not times new roman)
+  - center the image
+  - make the button and select look better
+*/

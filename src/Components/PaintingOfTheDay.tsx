@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type Part = {
   dimensions: { width: number; height: number };
@@ -89,6 +89,23 @@ export const PaintingOfTheDay = ({
     loadImage();
   }, [containerRef, imageUrl]);
 
+  const refs = useRef<HTMLDivElement[]>([]);
+
+  const duration = 10;
+  useEffect(() => {
+    refs.current.forEach((ref, index) => {
+      if (!ref) return;
+
+      const rowColTotal = (index % 4) + Math.floor(index / 4);
+      const totalColors = 6;
+      const startingOffset = Math.floor(
+        ((rowColTotal % totalColors) / totalColors) * duration
+      );
+      ref.style.animationDuration = `${duration}s`;
+      ref.style.animationDelay = `-${startingOffset}s`;
+    });
+  }, [imageParts]);
+
   return (
     <>
       <div
@@ -110,9 +127,12 @@ export const PaintingOfTheDay = ({
         >
           {imageParts.map(({ src, dimensions }, index) => (
             <div
+              ref={(el) => {
+                if (el) refs.current[index] = el;
+              }}
+              className="greenCycle"
               style={{
                 display: "inline-block",
-                backgroundColor: "green",
                 width: dimensions.width,
                 height: dimensions.height,
               }}
