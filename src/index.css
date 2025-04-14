@@ -49,8 +49,8 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 16px);
-  width: calc(100vw - 16px);
+  height: calc(100vh - 24px);
+  width: calc(100vw - 24px);
 }
 
 .GuessButtonContainer {
@@ -112,9 +112,15 @@ header {
 }
 
 @keyframes greenCycle {
-  0%   { background-color: hsl(134, 50%, 20%); }
-  50%  { background-color: hsl(134, 50%, 30%); }
-  100% { background-color: hsl(134, 50%, 20%); }
+  0% {
+    background-color: hsl(134, 50%, 20%);
+  }
+  50% {
+    background-color: hsl(134, 50%, 30%);
+  }
+  100% {
+    background-color: hsl(134, 50%, 20%);
+  }
 }
 
 .greenCycle {
@@ -122,11 +128,3 @@ header {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
-
-
-/* 
-TODO: 
-  - make the font different (not times new roman)
-  - center the image
-  - make the button and select look better
-*/
