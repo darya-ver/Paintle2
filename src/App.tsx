@@ -67,7 +67,7 @@ function App() {
 
   useEffect(() => {
     const fetchImage = async () => {
-      const response = await import(
+      const response = await import( /* @vite-ignore */
         `./assets/images/${selectedAnswer.filename}`
       );
       setImage(response.default);

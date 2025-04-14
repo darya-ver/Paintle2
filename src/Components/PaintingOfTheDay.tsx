@@ -101,33 +101,21 @@ export const PaintingOfTheDay = ({
         <canvas style={{ display: "none" }} />
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "0px",
-            width: imageScaledDimensions.width,
+            position: "relative",
+            width: imageScaledDimensions.width + 1,
             height: imageScaledDimensions.height,
-            border: "none",
-            borderWidth: "0px",
-            padding: 0,
-            margin: 0,
+            fontSize: "0px",
           }}
         >
           {imageParts.map(({ src, dimensions }, index) => (
-            <img
-              key={index}
-              src={clickedTileIndexes.includes(index) ? src : ""} // Show the image part only if guessed
+            <div
               style={{
-                display: "block",
+                display: "inline-block",
+                backgroundColor: clickedTileIndexes.includes(index)
+                  ? "yellow"
+                  : "green",
                 width: dimensions.width,
                 height: dimensions.height,
-                backgroundColor: clickedTileIndexes.includes(index)
-                  ? "transparent"
-                  : "green",
-                cursor: "pointer",
-                border: "none",
-                borderWidth: "0px",
-                padding: 0,
-                margin: 0,
               }}
               onClick={() => {
                 setClickedTileIndexes((prev) => {
@@ -137,7 +125,14 @@ export const PaintingOfTheDay = ({
                   return prev;
                 });
               }}
-            />
+            >
+              {clickedTileIndexes.includes(index) && (
+                <img
+                  key={index}
+                  src={clickedTileIndexes.includes(index) ? src : ""} // Show the image part only if guessed
+                />
+              )}
+            </div>
           ))}
         </div>
       </div>
