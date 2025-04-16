@@ -69,12 +69,30 @@ export const ResultsModal = ({
     <Modal
       isOpen={isOpen}
       contentLabel="Example Modal"
-      style={{ content: { backgroundColor: "#cff6cf", height: "50%" } }}
+      style={{
+        content: {
+          backgroundColor: "#cff6cf",
+          inset: "20px",
+        },
+      }}
     >
       <div className="ModalContent">
         <div className="ModalClose">
           <Button onClick={onClose} variant="Blank">
-            X
+            <svg height="25" width="25">
+              <g transform="translate(3.9661017,3.5677966)">
+                <path
+                  stroke="rgb(56,83,56)"
+                  stroke-width="3"
+                  d="M -2.5783352e-4,-0.00146808 17.435473,18.212367"
+                />
+                <path
+                  stroke="rgb(56,83,56)"
+                  stroke-width="3"
+                  d="M -2.5783352e-4,18.212367 17.435473,-0.00146808"
+                />
+              </g>
+            </svg>
           </Button>
         </div>
         <div className="ModalCenterContent">

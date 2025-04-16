@@ -114,10 +114,12 @@ header {
   display: flex;
   flex-direction: column;
   height: 100%;
+  color: #385338;
 }
 
 .ModalCenterContent {
   flex-grow: 1;
+  font-size: 1.5em;
 }
 
 @keyframes greenCycle {
