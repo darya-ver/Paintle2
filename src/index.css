@@ -78,9 +78,9 @@ header {
   }
 
   &.Secondary {
-    background-color: darkgreen;
-    border: 3px solid darkgreen;
-    color: white;
+    background-color: #7cae7c;
+    border: 3px solid #5a845a;
+    color: #deffde;
   }
 
   &.Angry {

@@ -43,7 +43,7 @@ export const GuessBox = ({
           placeholder={
             needsToClickAnotherTile
               ? "Please select a tile to reveal"
-              : "Type to search for a painting..."
+              : "Search for a painting..."
           }
           onChange={(option) => {
             if (option) {
@@ -63,17 +63,34 @@ export const GuessBox = ({
           styles={{
             control: (base) => ({
               ...base,
-              backgroundColor: "#e2f7e2",
-              border: "1px solid #ccc",
+              backgroundColor: "#fff5f6",
+              border: "3px solid #f1dddf",
               boxShadow: "none",
               "&:hover": {
                 border: "1px solid #aaa",
               },
+              color: "#90575d",
             }),
             menu: (base) => ({
               ...base,
               zIndex: 9999,
-              backgroundColor: "#e2f7e2",
+              backgroundColor: "#fff5f6",
+              border: "3px solid #f1dddf",
+              color: "#90575d",
+            }),
+            singleValue: (base) => ({
+              ...base,
+              color: "#90575d",
+            }),
+            placeholder: (base) => ({
+              ...base,
+              color: "#90575d",
+            }),
+            option: (base, state) => ({
+              ...base,
+              backgroundColor: state.isSelected
+                ? "#cc9399"
+                : base.backgroundColor,
             }),
           }}
         />
