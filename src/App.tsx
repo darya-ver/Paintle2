@@ -6,16 +6,14 @@ import painting_data from "../public/final_image_data.json";
 import { ResultsModal } from "./Components/ResultsModal";
 import { getAnswer, getValueFromPainting } from "./utils";
 import { useGuessState } from "./hooks/useGuessState";
-import { useSetImage } from "./hooks/useSetImage";
 import { useTimeToNextPaintle } from "./hooks/useTimeToNextPaintle";
+
+const { selectedAnswer, answerLabel } = getAnswer(painting_data);
 
 function App() {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const { selectedAnswer, answerLabel } = getAnswer(painting_data);
-
   const [clickedTileIndexes, setClickedTileIndexes] = useState<number[]>([]);
-  const { image } = useSetImage({ selectedAnswer });
   const { timeToNextPaintle } = useTimeToNextPaintle();
   const {
     currentGuess,
@@ -36,14 +34,12 @@ function App() {
         ref={containerRef}
         style={{ width: "100%", flexGrow: 1, padding: "1rem" }}
       >
-        {image && image != "" ? (
-          <PaintingOfTheDay
-            imageUrl={image}
-            containerRef={containerRef}
-            clickedTileIndexes={clickedTileIndexes}
-            setClickedTileIndexes={setClickedTileIndexes}
-          />
-        ) : null}
+        <PaintingOfTheDay
+          imageUrl={`/Paintle2/images/${selectedAnswer.filename}`}
+          containerRef={containerRef}
+          clickedTileIndexes={clickedTileIndexes}
+          setClickedTileIndexes={setClickedTileIndexes}
+        />
       </div>
       <GuessBox
         currentGuess={currentGuess}

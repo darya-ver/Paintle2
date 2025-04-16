@@ -8,6 +8,8 @@ type UseSetImageProps = {
 export const useSetImage = ({ selectedAnswer }: UseSetImageProps) => {
   const [image, setImage] = useState(null);
 
+  console.log({ image });
+
   useEffect(() => {
     // What it needs:    https://darya-ver.github.io/Paintle2/images/image_0000.webp
     const fetchImage = async () => {
@@ -19,7 +21,6 @@ export const useSetImage = ({ selectedAnswer }: UseSetImageProps) => {
       );
       setImage(response.default);
     };
-
     fetchImage();
   }, [selectedAnswer.filename]);
 
