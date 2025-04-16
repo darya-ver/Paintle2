@@ -12,14 +12,16 @@ h2 {
   margin: 0;
 }
 
-header {
+.HeaderContainer {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: fantasy;
-  font-size: 2em;
+  font-size: 4em;
   color: #2c362c;
+  padding: 0;
+  line-height: 1.5;
 }
 
 .InputContainer {

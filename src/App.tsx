@@ -30,10 +30,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div
-        ref={containerRef}
-        style={{ width: "100%", flexGrow: 1, padding: "1rem" }}
-      >
+      <div ref={containerRef} style={{ width: "100%", flexGrow: 1 }}>
         <PaintingOfTheDay
           imageUrl={`/Paintle2/images/${selectedAnswer.filename}`}
           containerRef={containerRef}

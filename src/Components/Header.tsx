@@ -1,7 +1,7 @@
 export const Header = () => {
   return (
-    <header>
-      <h1 className="header">Pa</h1>
+    <div className="HeaderContainer">
+      <div className="header">Pa</div>
       <svg
         version="1.1"
         x="0px"
@@ -24,7 +24,7 @@ export const Header = () => {
           d="M84.4,7.4L45.8,78.9c-0.5-0.7-1-1.4-1.7-2c-2.3-2.2-5.3-3.4-8.5-3.3L79,4.3c0.8-1.4,2.6-1.9,4.1-1.1l0.3,0.2  C84.7,4.2,85.2,6,84.4,7.4z"
         />
       </svg>
-      <h1 className="header">ntle</h1>
-    </header>
+      <div className="header">ntle</div>
+    </div>
   );
 };
