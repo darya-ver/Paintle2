@@ -32,7 +32,7 @@ function App() {
       <Header />
       <div ref={containerRef} style={{ width: "100%", flexGrow: 1 }}>
         <PaintingOfTheDay
-          imageUrl={`/Paintle2/images/${selectedAnswer.filename}`}
+          imageUrl={`/images/${selectedAnswer.filename}`}
           containerRef={containerRef}
           clickedTileIndexes={clickedTileIndexes}
           setClickedTileIndexes={setClickedTileIndexes}
