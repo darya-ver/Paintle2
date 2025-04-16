@@ -9,10 +9,10 @@ export const Header = () => {
         viewBox="0 0 100 100"
         style={{
           transform: "rotate(150deg)",
-          width: "50px",
-          marginTop: "-15px",
-          marginLeft: "-15px",
-          marginRight: "-20px",
+          width: "40px",
+          marginTop: "-10px",
+          marginLeft: "-14px",
+          marginRight: "-19px",
         }}
       >
         <path
