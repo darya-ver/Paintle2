@@ -92,6 +92,20 @@ export const GuessBox = ({
                 ? "#cc9399"
                 : base.backgroundColor,
             }),
+            clearIndicator: (base) => ({
+              ...base,
+              color: "#90575d",
+              "&:hover": {
+                color: "#90575d",
+              },
+            }),
+            dropdownIndicator: (base) => ({
+              ...base,
+              color: "#90575d",
+              "&:hover": {
+                color: "#90575d",
+              },
+            }),
           }}
         />
         <div className="GuessButtonContainer">
