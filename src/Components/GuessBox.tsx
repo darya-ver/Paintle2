@@ -36,7 +36,6 @@ export const GuessBox = ({
 
   return (
     <div className="GuessBox">
-      <h2>Guess the Painting</h2>
       <div className="InputContainer">
         <Select
           value={options.find((opt) => opt.value === currentGuess) || null}
