@@ -23,6 +23,7 @@ function App() {
     numOfGuesses,
     showResultsModal,
     isWin,
+    isBadGuess,
     onSubmitGuess,
     onGiveUp,
     onCloseModal,
@@ -48,6 +49,7 @@ function App() {
         currentGuess={currentGuess}
         setCurrentGuess={setCurrentGuess}
         onSubmitGuess={onSubmitGuess}
+        isBadGuess={isBadGuess}
         options={painting_data.map((answer) => ({
           value: getValueFromPainting(answer),
           artist: answer.attribution,

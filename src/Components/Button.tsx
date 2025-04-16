@@ -1,7 +1,7 @@
 type ButtonProps = {
   children: React.ReactNode;
   onClick: () => void;
-  variant?: "Primary" | "Secondary" | "Blank";
+  variant?: "Primary" | "Secondary" | "Blank" | "Angry";
   disabled?: boolean;
   style?: React.CSSProperties;
 };

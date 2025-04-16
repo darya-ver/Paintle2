@@ -7,6 +7,7 @@ type GuessBoxProps = {
   currentGuess: string;
   setCurrentGuess: React.Dispatch<React.SetStateAction<string>>;
   onSubmitGuess: () => void;
+  isBadGuess: boolean;
   options: { value: string; name: string; artist: string; date: string }[];
   needsToClickAnotherTile: boolean;
   openedAllTiles: boolean;
@@ -17,17 +18,21 @@ export const GuessBox = ({
   currentGuess,
   setCurrentGuess,
   onSubmitGuess,
+  isBadGuess,
   options,
   needsToClickAnotherTile,
   openedAllTiles,
   onGiveUp,
 }: GuessBoxProps) => {
   const buttonText = useMemo(() => {
+    if (isBadGuess) {
+      return "Incorrect";
+    }
     if (needsToClickAnotherTile) {
       return "Click another tile";
     }
     return "Submit";
-  }, [needsToClickAnotherTile]);
+  }, [needsToClickAnotherTile, isBadGuess]);
 
   return (
     <div className="GuessBox">
@@ -77,6 +82,7 @@ export const GuessBox = ({
           <Button
             onClick={() => onSubmitGuess()}
             disabled={currentGuess === ""}
+            variant={isBadGuess ? "Angry" : "Primary"}
             style={{
               flexGrow: 1,
             }}

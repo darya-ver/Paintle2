@@ -9,6 +9,7 @@ export const useGuessState = ({ answerLabel }: UseGuessStateProps) => {
   const [numOfGuesses, setNumOfGuesses] = useState<number>(0);
   const [showResultsModal, setShowResultsModal] = useState<boolean>(false);
   const [isWin, setIsWin] = useState<boolean>(false);
+  const [isBadGuess, setIsBadGuess] = useState<boolean>(false);
 
   const onSubmitGuess = () => {
     setNumOfGuesses(numOfGuesses + 1);
@@ -18,6 +19,10 @@ export const useGuessState = ({ answerLabel }: UseGuessStateProps) => {
       setIsWin(true);
     } else {
       setCurrentGuess("");
+      setIsBadGuess(true);
+      setTimeout(() => {
+        setIsBadGuess(false);
+      }, 3000);
     }
   };
 
@@ -37,6 +42,7 @@ export const useGuessState = ({ answerLabel }: UseGuessStateProps) => {
     numOfGuesses,
     showResultsModal,
     isWin,
+    isBadGuess,
     onSubmitGuess,
     onGiveUp,
     onCloseModal,
