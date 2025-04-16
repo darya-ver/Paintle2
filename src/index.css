@@ -83,6 +83,12 @@ header {
     color: white;
   }
 
+  &.Angry {
+    background-color: #d16e6e;
+    border: 3px solid #8f4d4d;
+    color: #492727;
+  }
+
   &.Blank {
     background-color: transparent;
     border: 0px;
@@ -91,7 +97,7 @@ header {
     padding: 0;
   }
 
-  &:disabled {
+  &:not(.Angry):disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
