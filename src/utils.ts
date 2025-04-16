@@ -55,7 +55,7 @@ export const getValueFromPainting = (painting: {
 
 export const getAnswer = (painting_data: Answer[]) => {
   const now = new Date();
-  const startDate = new Date(2025, 3, 6); // day that we wrote this code
+  const startDate = new Date(2025, 4, 16); // day that we wrote this code
 
   // The days between the startDate and now
   const days = Math.floor(
