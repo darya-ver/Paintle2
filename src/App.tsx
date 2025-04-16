@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { GuessBox } from "./Components/GuessBox";
 import { Header } from "./Components/Header";
 import { PaintingOfTheDay } from "./Components/PaintingOfTheDay";
-import painting_data from "./assets/final_image_data.json";
+import painting_data from "../public/final_image_data.json";
 import { ResultsModal } from "./Components/ResultsModal";
 import { getAnswer, getValueFromPainting } from "./utils";
 import { useGuessState } from "./hooks/useGuessState";

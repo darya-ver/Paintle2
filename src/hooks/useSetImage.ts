@@ -14,7 +14,7 @@ export const useSetImage = ({ selectedAnswer }: UseSetImageProps) => {
     const fetchImage = async () => {
       const response = await import(
         /* @vite-ignore */
-        `./../assets/images/${selectedAnswer.filename}`
+        `./../../public/images/${selectedAnswer.filename}`
       );
       setImage(response.default);
     };
