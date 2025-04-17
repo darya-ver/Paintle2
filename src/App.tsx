@@ -8,7 +8,8 @@ import { getAnswer, getValueFromPainting } from "./utils";
 import { useGuessState } from "./hooks/useGuessState";
 import { useTimeToNextPaintle } from "./hooks/useTimeToNextPaintle";
 
-const { selectedAnswer, answerLabel } = getAnswer(painting_data);
+const { selectedAnswer: ANSWER, answerLabel: ANSWER_LABEL } =
+  getAnswer(painting_data);
 
 function App() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -25,14 +26,14 @@ function App() {
     onSubmitGuess,
     onGiveUp,
     onCloseModal,
-  } = useGuessState({ answerLabel });
+  } = useGuessState({ answerLabel: ANSWER_LABEL });
 
   return (
     <div className="App">
       <Header />
       <div ref={containerRef} style={{ width: "100%", flexGrow: 1 }}>
         <PaintingOfTheDay
-          imageUrl={`/images/${selectedAnswer.filename}`}
+          imageUrl={`/images/${ANSWER.filename}`}
           containerRef={containerRef}
           clickedTileIndexes={clickedTileIndexes}
           setClickedTileIndexes={setClickedTileIndexes}
@@ -57,7 +58,7 @@ function App() {
         isOpen={showResultsModal}
         onClose={onCloseModal}
         isWin={isWin}
-        correctAnswer={selectedAnswer}
+        correctAnswer={ANSWER}
         timeToNextPaintle={timeToNextPaintle}
         clickedTileIndexes={clickedTileIndexes}
       />
