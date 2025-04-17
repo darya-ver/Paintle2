@@ -12,6 +12,7 @@ type ResultsModalProps = {
   correctAnswer: Answer;
   timeToNextPaintle: string;
   clickedTileIndexes: number[];
+  dateOfPainting: Date;
 };
 
 export const ResultsModal = ({
@@ -21,6 +22,7 @@ export const ResultsModal = ({
   correctAnswer,
   timeToNextPaintle,
   clickedTileIndexes,
+  dateOfPainting,
 }: ResultsModalProps) => {
   const [copied, setCopied] = useState(false);
 
@@ -102,7 +104,7 @@ export const ResultsModal = ({
         <Button
           onClick={() => {
             navigator.clipboard.writeText(
-              formatCopyContent(clickedTileIndexes, isWin)
+              formatCopyContent(clickedTileIndexes, isWin, dateOfPainting)
             );
             setCopied(true);
             setTimeout(() => {

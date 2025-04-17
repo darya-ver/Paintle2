@@ -77,6 +77,7 @@ function App() {
         correctAnswer={selectedAnswer}
         timeToNextPaintle={timeToNextPaintle}
         clickedTileIndexes={clickedTileIndexes}
+        dateOfPainting={dateOfPainting}
       />
       <DatePickerModal
         datePickerModalOpen={datePickerModalOpen}

@@ -3,11 +3,10 @@ import { Answer } from "./types";
 
 export const formatCopyContent = (
   clickedTileIndexes: number[],
-  isWin: boolean
-  // TODO: add date
+  isWin: boolean,
+  dateOfPainting: Date,
 ) => {
-  const now = new Date();
-  const dateString = now.toLocaleDateString("en-US", {
+  const dateString = dateOfPainting.toLocaleDateString("en-US", {
     year: "2-digit",
     month: "numeric",
     day: "numeric",
