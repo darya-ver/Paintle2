@@ -20,3 +20,6 @@ export const INDEX_TO_EMOJI: {
 };
 
 export const UN_REVEALED_SQUARE = "⬜";
+
+export const START_DATE = new Date(2025, 3, 14); // day that we wrote this code
+export const START_DATE_STRING = "2025-04-14";

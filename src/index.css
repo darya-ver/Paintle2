@@ -103,6 +103,10 @@ h2 {
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &.LessPadding {
+    padding: 0.5em 0.5em;
+  }
 }
 
 .ModalClose {
@@ -140,4 +144,12 @@ h2 {
   animation-name: greenCycle;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+.MorePaintlesButton {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  line-height: unset;
+  font-size: 1em;
 }

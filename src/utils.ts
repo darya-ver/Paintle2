@@ -1,9 +1,10 @@
-import { INDEX_TO_EMOJI, UN_REVEALED_SQUARE } from "./constants";
+import { INDEX_TO_EMOJI, START_DATE, UN_REVEALED_SQUARE } from "./constants";
 import { Answer } from "./types";
 
 export const formatCopyContent = (
   clickedTileIndexes: number[],
   isWin: boolean
+  // TODO: add date
 ) => {
   const now = new Date();
   const dateString = now.toLocaleDateString("en-US", {
@@ -53,13 +54,12 @@ export const getValueFromPainting = (painting: {
   return value;
 };
 
-export const getAnswer = (painting_data: Answer[]) => {
-  const now = new Date();
-  const startDate = new Date(2025, 3, 16); // day that we wrote this code
+export const getAnswer = (painting_data: Answer[], dateOfPainting: Date) => {
+  const startDate = START_DATE;
 
   // The days between the startDate and now
   const days = Math.floor(
-    (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+    (dateOfPainting.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
   );
 
   const selectedAnswer = painting_data[days % painting_data.length];
@@ -68,4 +68,18 @@ export const getAnswer = (painting_data: Answer[]) => {
   console.log({ answerLabel });
 
   return { selectedAnswer, answerLabel };
+};
+
+export const getISOStringInTimeZone = (date: Date | undefined) => {
+  if (!date) {
+    return undefined;
+  }
+
+  const tzOffset = date.getTimezoneOffset() * 60000; // offset in milliseconds
+  const localISOTime = new Date(Date.now() - tzOffset)
+    .toISOString()
+    .slice(0, -1)
+    .split("T")[0];
+
+  return localISOTime;
 };

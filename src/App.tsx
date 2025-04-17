@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { GuessBox } from "./Components/GuessBox";
 import { Header } from "./Components/Header";
 import { PaintingOfTheDay } from "./Components/PaintingOfTheDay";
@@ -7,12 +7,18 @@ import { ResultsModal } from "./Components/ResultsModal";
 import { getAnswer, getValueFromPainting } from "./utils";
 import { useGuessState } from "./hooks/useGuessState";
 import { useTimeToNextPaintle } from "./hooks/useTimeToNextPaintle";
-
-const { selectedAnswer: ANSWER, answerLabel: ANSWER_LABEL } =
-  getAnswer(painting_data);
+import { DatePickerModal } from "./Components/DatePickerModal";
+import { Button } from "./Components/Button";
 
 function App() {
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const [dateOfPainting, setDateOfPainting] = useState<Date>(new Date());
+  const [datePickerModalOpen, setDatePickerModalOpen] = useState(false);
+
+  const { selectedAnswer, answerLabel } = useMemo(() => {
+    return getAnswer(painting_data, dateOfPainting);
+  }, [dateOfPainting]);
 
   const [clickedTileIndexes, setClickedTileIndexes] = useState<number[]>([]);
   const { timeToNextPaintle } = useTimeToNextPaintle();
@@ -26,14 +32,24 @@ function App() {
     onSubmitGuess,
     onGiveUp,
     onCloseModal,
-  } = useGuessState({ answerLabel: ANSWER_LABEL });
+  } = useGuessState({ answerLabel });
 
   return (
     <div className="App">
       <Header />
+      <div className="MorePaintlesButton">
+        <Button
+          onClick={() => {
+            setDatePickerModalOpen(true);
+          }}
+          sizing="LessPadding"
+        >
+          Past
+        </Button>
+      </div>
       <div ref={containerRef} style={{ width: "100%", flexGrow: 1 }}>
         <PaintingOfTheDay
-          imageUrl={`/images/${ANSWER.filename}`}
+          imageUrl={`/images/${selectedAnswer.filename}`}
           containerRef={containerRef}
           clickedTileIndexes={clickedTileIndexes}
           setClickedTileIndexes={setClickedTileIndexes}
@@ -58,9 +74,18 @@ function App() {
         isOpen={showResultsModal}
         onClose={onCloseModal}
         isWin={isWin}
-        correctAnswer={ANSWER}
+        correctAnswer={selectedAnswer}
         timeToNextPaintle={timeToNextPaintle}
         clickedTileIndexes={clickedTileIndexes}
+      />
+      <DatePickerModal
+        datePickerModalOpen={datePickerModalOpen}
+        onModalClose={() => setDatePickerModalOpen(false)}
+        onPlay={(date) => {
+          setDateOfPainting(date);
+          setClickedTileIndexes([]);
+          setCurrentGuess("");
+        }}
       />
     </div>
   );
